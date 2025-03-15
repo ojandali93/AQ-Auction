@@ -100,7 +100,7 @@
         <option value="Moen">Moen</option>
         <option value="Elkay">Elkay</option>
         <option value="Flex">Flex</option>
-        <option value="Miscellaneous">Miscellaneous</option>
+        <option value="Other">Other</option>
       </select>
     </label>
     <label>
@@ -114,8 +114,8 @@
     <label>
       User:
       <select id="user" required>
-        <option value="Omar Aljabi">Omar Aljabi</option>
         <option value="Dia Ascha">Dia Ascha</option>
+        <option value="Omar Aljabi">Omar Aljabi</option>
       </select>
     </label>
     <label>
@@ -127,6 +127,16 @@
         <option value="Lowes">Lowes</option>
         <option value="Miscellaneous">Miscellaneous</option>
         <option value="Oil">Oil</option>
+      </select>
+    </label>
+
+    <label>
+      Payment:
+      <select id="payment" required>
+        <option value="Zelle">Zelle</option>
+        <option value="Cash">Cash</option>
+        <option value="CashApp">CashApp</option>
+        <option value="Check">Check</option>
       </select>
     </label>
 
@@ -166,6 +176,7 @@
       const price = `$${document.getElementById('price').value}`;
       const user = document.getElementById('user').value;
       const category = document.getElementById('category').value;
+      const Payment = document.getElementById('payment').value;
 
       if (!brand || !item || !price || !date || !user || !category) {
         alert('Please fill out all fields');
@@ -204,7 +215,8 @@
         itemDiv.innerHTML = `
           <div>
             <strong>${formatDate(entry.date)}</strong><br/>
-            <strong>${entry.brand}</strong> - ${entry.item} - ${entry.price}<br/>
+            <strong>${entry.brand}</strong> - ${entry.item}<br/>
+            <strong>${entry.price}</strong> - ${entry.Payment}<br/>
             <em>${entry.user}</em> | <em>${entry.category}</em>
           </div>
           <button class="edit-btn" onclick="editItem(${index})">Edit</button>
@@ -229,6 +241,7 @@
       document.getElementById('price').value = entry.price.replace('$', '');
       document.getElementById('user').value = entry.user;
       document.getElementById('category').value = entry.category;
+      document.getElementById('payment').value = entry.Payment;
 
       editingIndex = index;
     };
