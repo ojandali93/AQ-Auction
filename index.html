@@ -4,78 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Item Tracker</title>
-
-  <!-- Inline CSS for basic styling -->
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
-      background-color: #f5f5f5;
-      color: #333;
+      background: #f9f9f9;
     }
     h1, h2 {
-      text-align: center;
+      color: #333;
     }
     form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 500px;
-      margin: 0 auto 20px auto;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
     }
     label {
       display: block;
-      margin-bottom: 10px;
+      margin: 10px 0 5px;
     }
-    input, select {
-      width: 100%;
+    input, select, button {
       padding: 8px;
-      margin-top: 5px;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 10px;
-      border: none;
-      margin-top: 10px;
+      margin-bottom: 10px;
       width: 100%;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-    button:hover {
-      background-color: #0056b3;
+      max-width: 400px;
     }
     #items-container {
-      max-width: 500px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       max-height: 400px;
       overflow-y: auto;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ddd;
     }
     .item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      background: #eee;
+      margin-bottom: 10px;
       padding: 10px;
-      border-bottom: 1px solid #eee;
+      border-radius: 5px;
     }
-    .edit-btn {
-      background-color: #28a745;
-      color: white;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .edit-btn:hover {
-      background-color: #218838;
+    .filters {
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -107,16 +72,38 @@
         <option value="Dia Ascha">Dia Ascha</option>
       </select>
     </label>
+    <label>
+      Category:
+      <select id="category" required>
+        <option value="Tools">Tools</option>
+        <option value="Costco">Costco</option>
+        <option value="CVS">CVS</option>
+        <option value="Lowes">Lowes</option>
+        <option value="Miscellaneous">Miscellaneous</option>
+        <option value="Oil">Oil</option>
+      </select>
+    </label>
+
     <button type="submit">Add Item</button>
   </form>
+
+  <!-- Filter by User -->
+  <div class="filters">
+    <label for="user-filter">Filter by User:</label>
+    <select id="user-filter">
+      <option value="All">All</option>
+      <option value="Omar Aljabi">Omar Aljabi</option>
+      <option value="Dia Ascha">Dia Ascha</option>
+    </select>
+  </div>
 
   <h2>Items List</h2>
   <div id="items-container"></div>
 
-  <!-- Inline JS -->
   <script>
     const form = document.getElementById('item-form');
     const itemsContainer = document.getElementById('items-container');
+    const userFilter = document.getElementById('user-filter');
 
     let items = []; // Array to store items
     let editingIndex = null; // Index of item being edited
@@ -132,13 +119,14 @@
       const item = document.getElementById('item').value.trim();
       const price = `$${document.getElementById('price').value}`;
       const user = document.getElementById('user').value;
+      const category = document.getElementById('category').value;
 
-      if (!brand || !item || !price || !date || !user) {
+      if (!brand || !item || !price || !date || !user || !category) {
         alert('Please fill out all fields');
         return;
       }
 
-      const newItem = { date, brand, item, price, user };
+      const newItem = { date, brand, item, price, user, category };
 
       if (editingIndex !== null) {
         items[editingIndex] = newItem;
@@ -152,24 +140,38 @@
       renderItems();
     });
 
+    userFilter.addEventListener('change', () => {
+      renderItems();
+    });
+
     function renderItems() {
       itemsContainer.innerHTML = '';
 
-      items.forEach((entry, index) => {
+      const filteredItems = userFilter.value === 'All'
+        ? items
+        : items.filter(entry => entry.user === userFilter.value);
+
+      filteredItems.forEach((entry, index) => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'item';
 
         itemDiv.innerHTML = `
           <div>
-            <strong>${entry.date}</strong><br/>
+            <strong>${formatDate(entry.date)}</strong><br/>
             <strong>${entry.brand}</strong> - ${entry.item} - ${entry.price}<br/>
-            <em>${entry.user}</em>
+            <em>${entry.user}</em> | <em>${entry.category}</em>
           </div>
           <button class="edit-btn" onclick="editItem(${index})">Edit</button>
         `;
 
         itemsContainer.appendChild(itemDiv);
       });
+    }
+
+    function formatDate(dateString) {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const dateObj = new Date(dateString);
+      return dateObj.toLocaleDateString(undefined, options);
     }
 
     window.editItem = (index) => {
@@ -180,6 +182,7 @@
       document.getElementById('item').value = entry.item;
       document.getElementById('price').value = entry.price.replace('$', '');
       document.getElementById('user').value = entry.user;
+      document.getElementById('category').value = entry.category;
 
       editingIndex = index;
     };
