@@ -164,21 +164,41 @@
             const response = await fetch('https://aq-server-4wyh.onrender.com/items');
             const items = await response.json();
             itemsContainer.innerHTML = "";
+            
             items.forEach(item => {
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "item";
                 itemDiv.innerHTML = `
-                    ${item.date} \n
-                    ${item.brand} - ${item.item} \n
-                    ${item.price} (${item.payment}) \n
-                    User: ${item.user} \n
-                    Category: ${item.category} \n
-                    <button class="edit-btn" onclick="startEdit('${item._id}', '${item.date}', '${item.brand}', '${item.item}', '${item.price}', '${item.user}', '${item.category}', '${item.payment}')">Edit</button>
+                    ${item.date} <br>
+                    ${item.brand} - ${item.item} <br>
+                    ${item.price} (${item.payment}) <br>
+                    User: ${item.user} <br>
+                    Category: ${item.category} <br>
+                    <button class="edit-btn" onclick="startEdit('${item.id}', '${item.date}', '${item.brand}', '${item.item}', '${item.price}', '${item.user}', '${item.category}', '${item.payment}')">Edit</button>
+                    <button class="delete-btn" onclick="deleteItem('${item.id}')">Delete</button>
                 `;
                 itemsContainer.appendChild(itemDiv);
             });
         } catch (error) {
             console.error('Error fetching items:', error);
+        }
+    }
+
+    async function deleteItem(itemId) {
+        try {
+            const response = await fetch(`https://aq-server-4wyh.onrender.com/items/${itemId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert('Item deleted successfully');
+                fetchItems(); // Refresh the list after deletion
+            } else {
+                alert('Failed to delete item');
+            }
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            alert('An error occurred while deleting the item');
         }
     }
 
