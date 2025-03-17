@@ -171,7 +171,9 @@
                     ${item.date} \n
                     ${item.brand} - ${item.item} \n
                     ${item.price} (${item.payment}) \n
-                    <button class="edit-btn" onclick="startEdit('${item._id}', '${item.date}', '${item.brand}', '${item.item}', '${item.price}')">Edit</button>
+                    User: ${item.user} \n
+                    Category: ${item.category} \n
+                    <button class="edit-btn" onclick="startEdit('${item._id}', '${item.date}', '${item.brand}', '${item.item}', '${item.price}', '${item.user}', '${item.category}', '${item.payment}')">Edit</button>
                 `;
                 itemsContainer.appendChild(itemDiv);
             });
@@ -180,12 +182,15 @@
         }
     }
 
-    function startEdit(id, date, brand, item, price) {
+    function startEdit(id, date, brand, item, price, user, category, payment) {
         editingItemId = id;
         document.getElementById('date').value = date;
         document.getElementById('brand').value = brand;
         document.getElementById('item').value = item;
         document.getElementById('price').value = price.replace('$', '');
+        document.getElementById('user').value = user;
+        document.getElementById('category').value = category;
+        document.getElementById('payment').value = payment;
     }
 
     form.addEventListener('submit', async (e) => {
@@ -194,7 +199,10 @@
             date: document.getElementById('date').value,
             brand: document.getElementById('brand').value.trim(),
             item: document.getElementById('item').value.trim(),
-            price: `$${document.getElementById('price').value}`
+            price: `$${document.getElementById('price').value}`,
+            user: document.getElementById('user').value,
+            category: document.getElementById('category').value,
+            payment: document.getElementById('payment').value
         };
 
         if (editingItemId) {
