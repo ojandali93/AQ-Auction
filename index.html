@@ -82,25 +82,77 @@
   <h1>Item Tracker</h1>
 
   <form id="item-form">
-    <label>Date: <input type="date" id="date" required /></label>
-    <label>Brand: <select id="brand" required>
-      <option value="">Select Brand</option>
-      <option value="Milwaukee">Milwaukee</option>
-      <option value="DeWalt">DeWalt</option>
-      <option value="Ryobi">Ryobi</option>
-    </select></label>
-    <label>Item: <input type="text" id="item" required /></label>
-    <label>Price: <input type="number" id="price" required /></label>
-    <label>User: <select id="user" required>
-      <option value="Dia Ascha">Dia Ascha</option>
-      <option value="Omar Aljabi">Omar Aljabi</option>
-    </select></label>
+    <label>
+      Date:
+      <input type="date" id="date" required />
+    </label>
+    <label>
+      Brand:
+      <select id="brand" required>
+        <option value="">Select Brand</option>
+        <option value="Milwaukee">Milwaukee</option>
+        <option value="DeWalt">DeWalt</option>
+        <option value="Ryobi">Ryobi</option>
+        <option value="Kobalt">Kobalt</option>
+        <option value="Metabo">Metabo</option>
+        <option value="Craftsman">Craftsman</option>
+        <option value="Nest">Nest</option>
+        <option value="Moen">Moen</option>
+        <option value="Elkay">Elkay</option>
+        <option value="Flex">Flex</option>
+        <option value="Other">Other</option>
+      </select>
+    </label>
+    <label>
+      Item:
+      <input type="text" id="item" required />
+    </label>
+    <label>
+      Price:
+      <input type="number" id="price" required />
+    </label>
+    <label>
+      User:
+      <select id="user" required>
+        <option value="Dia Ascha">Dia Ascha</option>
+        <option value="Omar Aljabi">Omar Aljabi</option>
+      </select>
+    </label>
+    <label>
+      Category:
+      <select id="category" required>
+        <option value="Tools">Tools</option>
+        <option value="Costco">Costco</option>
+        <option value="CVS">CVS</option>
+        <option value="Lowes">Lowes</option>
+        <option value="Miscellaneous">Miscellaneous</option>
+        <option value="Oil">Oil</option>
+      </select>
+    </label>
+
+    <label>
+      Payment:
+      <select id="payment" required>
+        <option value="Cash">Cash</option>
+        <option value="Zelle">Zelle</option>
+      </select>
+    </label>
+
     <button type="submit">Add Item</button>
   </form>
 
+  <!-- Filter by User -->
+  <div class="filters">
+    <label for="user-filter">Filter by User:</label>
+    <select id="user-filter">
+      <option value="All">All</option>
+      <option value="Omar Aljabi">Omar Aljabi</option>
+      <option value="Dia Ascha">Dia Ascha</option>
+    </select>
+  </div>
+
   <h2>Items List</h2>
   <div id="items-container"></div>
-
   <script>
     const form = document.getElementById('item-form');
     const itemsContainer = document.getElementById('items-container');
