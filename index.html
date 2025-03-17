@@ -173,12 +173,15 @@
             const response = await fetch('https://aq-server-4wyh.onrender.com/items');
             const items = await response.json();
             itemsContainer.innerHTML = "";
-            
+
             items.forEach(item => {
+                // Format the date
+                const formattedDate = formatDate(item.date);
+
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "item";
                 itemDiv.innerHTML = `
-                    ${item.date} <br>
+                    ${formattedDate} <br>
                     ${item.brand} - ${item.item} <br>
                     ${item.price} (${item.payment}) <br>
                     User: ${item.user} <br>
@@ -191,6 +194,13 @@
         } catch (error) {
             console.error('Error fetching items:', error);
         }
+    }
+
+    // Function to format the date to "Month Date, Year"
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString('en-US', options); // Example: "March 17, 2025"
     }
 
     async function deleteItem(itemId) {
