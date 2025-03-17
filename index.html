@@ -195,14 +195,14 @@
         };
 
         if (editingItemId) {
-            await fetch(`https://your-render-url.com/items/${editingItemId}`, {
+            await fetch(`https://aq-server-4wyh.onrender.com/items/${editingItemId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newItem)
             });
             editingItemId = null;
         } else {
-            await fetch('https://your-render-url.com/items', {
+            await fetch('https://aq-server-4wyh.onrender.com/items', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newItem)
