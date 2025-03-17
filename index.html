@@ -71,6 +71,7 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      width: 100px;
     }
     .edit-btn:hover {
       background-color: #218838;
@@ -167,7 +168,9 @@
                 const itemDiv = document.createElement("div");
                 itemDiv.className = "item";
                 itemDiv.innerHTML = `
-                    ${item.date} - ${item.brand} - ${item.item} - ${item.price} 
+                    ${item.date} \n
+                    ${item.brand} - ${item.item} \n
+                    ${item.price} (${item.payment}) \n
                     <button class="edit-btn" onclick="startEdit('${item._id}', '${item.date}', '${item.brand}', '${item.item}', '${item.price}')">Edit</button>
                 `;
                 itemsContainer.appendChild(itemDiv);
